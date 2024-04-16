@@ -1,18 +1,37 @@
 package test;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Test1 {
 
     public static void main(String[] args) {
         int[] arr = {1,3,7,7,4,3,5};
-
+        new Test1().convert("PAYPALISHIRING",3);
         System.out.println(new Test1().findMinimumCharacters("sdmaddzsfonsd","amazon"));//findMaximumSum(arr,3));
     }
+
+    public String convert(String s, int numRows) {
+        StringBuilder[] res = new StringBuilder[numRows];
+        int index = 0; boolean direction = false;
+        for(int i = 0 ; i < s.length() ; i++){
+            if(res[index] == null)
+                res[index] = new StringBuilder();
+            res[index].append(s.charAt(i));
+            if(index == numRows-1 || index == 0){
+                direction = !direction;
+            }
+            if(direction)
+                index++;
+            else
+                index--;
+        }
+        String result = "";
+        for(var sb : res){
+            result = result.concat(sb.toString());
+        }
+        return result;
+    }
+
     public int findMinimumCharacters(String search,String result){
       int match = 0;
       for(char c : result.toCharArray()){

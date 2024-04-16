@@ -1,6 +1,7 @@
 package test.practice;
 
 import java.util.*;
+import test.practice.TreeNode;
 
 public class SolutionTree {
     HashMap<TreeNode, Integer> depthMap = new HashMap<TreeNode, Integer>();

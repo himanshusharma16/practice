@@ -291,6 +291,34 @@ public class MyTree {
 		else
 			return left;
 	}
+
+	int max = 0;
+
+	public int longestZigZag(Node root) {
+		zigzag(root,false);
+		return max;
+	}
+
+	private int zigzag(Node curr, boolean direction){
+		if(curr == null)
+			return 0;
+
+		if(curr.left == null && curr.right == null)
+			return 1;
+
+		int left = zigzag(curr.left,false);
+		int right = zigzag(curr.right,true);
+
+		if(left>=max)
+			max = left;
+		else if(right >= max)
+			max = right;
+
+		if(direction)
+			return left+1;
+		else
+			return right+1;
+	}
 	
 	private void print(Node[] path,Node n) {
 		for(Node i:path){
@@ -609,18 +637,19 @@ public class MyTree {
 
 	public static void main(String[] args) {
 		MyTree mt = new MyTree();
-		mt.root = new Node(5);
+		mt.root = new Node(1);
 		mt.root.left = new Node(4);
 		mt.root.right = new Node(8);
 		mt.root.left.left = new Node(11);
 		mt.root.right.left = new Node(13);
-		mt.root.right.right = new Node(4);
-		mt.root.right.right.right = new Node(1);
+		mt.root.right.right = new Node(14);
+		/*mt.root.right.right.right = new Node(1);
 		mt.root.right.right.left = new Node(5);
 		mt.root.left.left.left = new Node(7);
 		mt.root.left.left.left.right = new Node(20);
-		mt.root.left.left.right = new Node(2);
-		mt.postOrderRecursive(mt.root);
+		mt.root.left.left.right = new Node(2);*/
+		//mt.postOrderRecursive(mt.root);
+		mt.longestZigZag(mt.root);
 		printLeftView(mt.root);
 		printRightView(mt.root);
 	}

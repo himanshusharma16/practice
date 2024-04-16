@@ -1,8 +1,6 @@
 package test.practice;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class DynamicProgramming {
 
@@ -52,6 +50,66 @@ public class DynamicProgramming {
         }
 
         return maxGold;
+    }
+
+    public int nearestExit(char[][] maze, int[] entrance) {
+        Queue<int[]> q = new LinkedList<>();
+        List<Integer> ll = null;
+        q.add(entrance);
+        maze[entrance[0]][entrance[1]] = '+';
+        q.add(null);
+
+        int count = 0;
+
+        while(!q.isEmpty()){
+            var curr = q.poll();
+
+            //check if border
+            if(curr == null){
+                count++;
+                if(!q.isEmpty())
+                    q.add(null);
+                continue;
+            } else {
+                if(maze[curr[0]][curr[1]] == '.' && (curr[0] == 0 || curr[1] == 0 || curr[0] == maze.length - 1 || curr[1] == maze[0].length - 1))
+                    return count;
+                else {
+                    maze[curr[0]][curr[1]] = '+';
+                }
+            }
+
+            boolean added = false;
+
+            // try up
+            if(curr[0] != 0 && maze[curr[0]-1][curr[1]] == '.'){
+                q.add(new int[]{curr[0]-1,curr[1]});
+                added = true;
+            }
+
+            //try down
+            if(curr[0] != maze.length - 1 && maze[curr[0]+1][curr[1]] == '.') {
+                q.add(new int[]{curr[0]+1,curr[1]});
+                added = true;
+            }
+
+            //try right
+            if(curr[1] != maze[0].length - 1 && maze[curr[0]][curr[1]+1] == '.') {
+                q.add(new int[]{curr[0],curr[1]+1});
+                added = true;
+            }
+
+            //try left
+            if(curr[1] != 0 && maze[curr[0]][curr[1]-1] == '.') {
+                q.add(new int[]{curr[0],curr[1]-1});
+                added = true;
+            }
+
+            //add dummy
+            if(added)
+                q.add(null);
+        }
+
+        return -1;
     }
 
     /*public static void main(String[] args) {
@@ -131,6 +189,10 @@ public class DynamicProgramming {
 
     public static void main(String args[])
     {
+        new DynamicProgramming().nearestExit(
+                new char[][]{{'+','+','+'},
+                           {'.','.','.'},
+                           {'+','+','+'}},new int[]{1,0});
         System.out.print(countWays(9));
         int set[] = {4, 1, 10, 12, 5, 2};//{ 2, 4, 8, 7 };
         int sum = 9;
